@@ -87,11 +87,22 @@ app.get('/dashboard', (req, res) => {
     if (!req.session.loggedIn) return res.redirect('/');
 
     const files = fs.readdirSync('./uploads');
-    res.render('dashboard', { files, fs, path });
+    const query = req.query.q ? req.query.q.trim().toLowerCase() : '';
+
+    let filteredFiles = files;
+    if (query) {
+        filteredFiles = files.filter(file => {
+            // Rimuovi timestamp e underscore per la ricerca
+            const originalName = file.replace(/^\d+-/, '').replace(/_/g, ' ').toLowerCase();
+            return originalName.includes(query);
+        });
+    }
+
+    res.render('dashboard', { files: filteredFiles, fs, path, query });
 });
 
 // === ROTTA: UPLOAD FILE ===
-app.post('/upload', upload.single('file'), (req, res) => {
+app.post('/upload', upload.array('file'), (req, res) => {
     if (!req.session.loggedIn) return res.redirect('/');
     res.redirect('/dashboard');
 });

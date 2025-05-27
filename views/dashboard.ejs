@@ -1,6 +1,8 @@
 <html>
 
 <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
     <link rel="stylesheet" as="style" onload="this.rel='stylesheet'"
         href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Plus+Jakarta+Sans%3Awght%40400%3B500%3B700%3B800" />
@@ -21,78 +23,185 @@
                         <div class="flex flex-col gap-4">
                             <h1 class="text-[#171412] text-base font-medium leading-normal">Ghibiri Drive</h1>
                             <div class="flex flex-col gap-2">
-                                <div class="cursor-pointer flex items-center gap-3 px-3 py-2 rounded-full bg-[#f4f2f1]">
-                                    <div class="text-[#171412]" data-icon="Folder" data-size="24px" data-weight="fill">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px"
-                                            fill="currentColor" viewBox="0 0 256 256">
-                                            <path
-                                                d="M216,72H131.31L104,44.69A15.88,15.88,0,0,0,92.69,40H40A16,16,0,0,0,24,56V200.62A15.41,15.41,0,0,0,39.39,216h177.5A15.13,15.13,0,0,0,232,200.89V88A16,16,0,0,0,216,72ZM40,56H92.69l16,16H40Z">
-                                            </path>
-                                        </svg>
+                                <a href="/dashboard">
+                                    <div
+                                        class="cursor-pointer flex items-center gap-3 px-3 py-2 rounded-full bg-[#f4f2f1]">
+                                        <div class="text-[#171412]" data-icon="Folder" data-size="24px"
+                                            data-weight="fill">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px"
+                                                fill="currentColor" viewBox="0 0 256 256">
+                                                <path
+                                                    d="M216,72H131.31L104,44.69A15.88,15.88,0,0,0,92.69,40H40A16,16,0,0,0,24,56V200.62A15.41,15.41,0,0,0,39.39,216h177.5A15.13,15.13,0,0,0,232,200.89V88A16,16,0,0,0,216,72ZM40,56H92.69l16,16H40Z">
+                                                </path>
+                                            </svg>
+                                        </div>
+                                        <p class="text-[#171412] text-sm font-medium leading-normal">Il mio Drive</p>
                                     </div>
-                                    <p class="text-[#171412] text-sm font-medium leading-normal">Il mio Drive</p>
-                                </div>
+                                </a>
                             </div>
                         </div>
                         <div class="flex flex-col gap-4">
-                            <button
+                            <script>
+                                function openUploadModal() {
+                                    document.getElementById('uploadModal').classList.remove('hidden');
+                                }
+
+                                function closeUploadModal() {
+                                    document.getElementById('uploadModal').classList.add('hidden');
+                                }
+                            </script>
+
+
+                            <button onclick="openUploadModal()"
                                 class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#e5be98] text-[#171412] text-sm font-bold leading-normal tracking-[0.015em]">
-                                <span class="truncate">Nuovo</span>
+                                <span class="truncate">Carica un file</span>
                             </button>
+
+
+                            <div id="uploadModal" class="hidden relative z-10" aria-labelledby="modal-title"
+                                role="dialog" aria-modal="true">
+                                <div class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>
+                                <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+                                    <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+                                        <div
+                                            class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 w-full max-w-xl mx-auto">
+                                            <div class="flex flex-col bg-white p-8 gap-4">
+                                                <h1
+                                                    class="text-[#171412] text-xl font-bold leading-tight tracking-[-0.015em] text-left pb-2 pt-2">
+                                                    Carica un file
+                                                </h1>
+                                                <form id="uploadForm" action="/upload" method="POST"
+                                                    enctype="multipart/form-data" class="flex flex-col gap-4">
+                                                    <label id="drop-area"
+                                                        class="flex flex-col items-center gap-2 cursor-pointer border-2 border-dashed border-[#e4e0dd] rounded-xl px-4 py-8 transition-colors"
+                                                        style="transition: background 0.2s;">
+                                                        <input id="file-upload" class="hidden" type="file" name="file"
+                                                            multiple />
+                                                        <span
+                                                            class="flex items-center gap-2 px-4 py-2 bg-[#f4f2f1] rounded-full">
+                                                            <i class="fa-solid fa-upload text-[#837567]"></i>
+                                                            <span class="text-[#171412] font-medium">Trascina qui il
+                                                                file o sceglilo…</span>
+                                                        </span>
+                                                        <span class="file-name text-[#837567] text-sm"
+                                                            id="file-name">Nessun file selezionato</span>
+                                                    </label>
+                                                    <button type="submit"
+                                                        class="flex items-center justify-center rounded-full h-10 px-4 bg-[#e5be98] text-[#171412] text-sm font-bold leading-normal tracking-[0.015em]">
+                                                        Carica
+                                                    </button>
+                                                    <button type="button" onclick="closeUploadModal()"
+                                                        class="flex items-center justify-center rounded-full h-10 px-4 bg-[#f4f2f1] text-[#171412] text-sm font-bold leading-normal tracking-[0.015em]">
+                                                        Annulla
+                                                    </button>
+                                                </form>
+                                                <script>
+                                                    const dropArea = document.getElementById('drop-area');
+                                                    const fileInput = document.getElementById('file-upload');
+                                                    const fileName = document.getElementById('file-name');
+                                                    const uploadForm = document.getElementById('uploadForm');
+
+                                                    // Cambia stile quando si trascina sopra
+                                                    ['dragenter', 'dragover'].forEach(eventName => {
+                                                        dropArea.addEventListener(eventName, (e) => {
+                                                            e.preventDefault();
+                                                            e.stopPropagation();
+                                                            dropArea.classList.add('bg-[#f4f2f1]');
+                                                        }, false);
+                                                    });
+                                                    ['dragleave', 'drop'].forEach(eventName => {
+                                                        dropArea.addEventListener(eventName, (e) => {
+                                                            e.preventDefault();
+                                                            e.stopPropagation();
+                                                            dropArea.classList.remove('bg-[#f4f2f1]');
+                                                        }, false);
+                                                    });
+
+                                                    // Gestione drop file
+                                                    dropArea.addEventListener('drop', (e) => {
+                                                        e.preventDefault();
+                                                        e.stopPropagation();
+                                                        if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                                                            fileInput.files = e.dataTransfer.files;
+                                                            // Mostra tutti i nomi dei file selezionati
+                                                            fileName.textContent = Array.from(e.dataTransfer.files).map(f => f.name).join(', ');
+                                                        }
+                                                    });
+
+                                                    // Aggiorna nome file selezionato
+                                                    fileInput.addEventListener('change', () => {
+                                                        if (fileInput.files.length > 0) {
+                                                            // Mostra tutti i nomi dei file selezionati
+                                                            fileName.textContent = Array.from(fileInput.files).map(f => f.name).join(', ');
+                                                        } else {
+                                                            fileName.textContent = 'Nessun file selezionato';
+                                                        }
+                                                    });
+                                                </script>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <!-- POPUP -->
+
+
+
+
+
+
+
                             <div class="flex flex-col gap-1">
+                                <button onclick="openStorageModal()"
+                                    class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#f4f2f1] text-[#171412] text-sm font-bold leading-normal tracking-[0.015em]">
+                                    <span class="truncate">Controlla spazio drive</span>
+                                </button>
                                 <div class="flex items-center gap-3 px-3 py-2" style="cursor: pointer;"
                                     onclick="openStorageModal()">
-                                    <div class="text-[#171412]" data-icon="DownloadSimple" data-size="24px"
-                                        data-weight="regular">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px"
-                                            fill="currentColor" viewBox="0 0 256 256">
-                                            <path
-                                                d="M224,152v56a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V152a8,8,0,0,1,16,0v56H208V152a8,8,0,0,1,16,0Zm-101.66,5.66a8,8,0,0,0,11.32,0l40-40a8,8,0,0,0-11.32-11.32L136,132.69V40a8,8,0,0,0-16,0v92.69L93.66,106.34a8,8,0,0,0-11.32,11.32Z">
-                                            </path>
-                                        </svg>
-                                    </div>
-                                    <p class="text-[#171412] text-sm font-medium leading-normal">Controlla spazio sul
-                                        drive</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="layout-content-container flex flex-col max-w-[1660px] flex-1">
-                    <div class="flex flex-wrap gap-2 p-4"><span
-                            class="text-[#171412] text-base font-medium leading-normal">Il mio Drive</span></div>
-                    <div class="px-4 py-3">
-                        <label class="flex flex-col min-w-40 h-12 w-full">
-                            <div class="flex w-full flex-1 items-stretch rounded-xl h-full">
-                                <div class="text-[#837567] flex border-none bg-[#f4f2f1] items-center justify-center pl-4 rounded-l-xl border-r-0"
-                                    data-icon="MagnifyingGlass" data-size="24px" data-weight="regular">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px"
-                                        fill="currentColor" viewBox="0 0 256 256">
-                                        <path
-                                            d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z">
-                                        </path>
-                                    </svg>
-                                </div>
-                                <input placeholder="Cerca in Drive"
-                                    class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#171412] focus:outline-0 focus:ring-0 border-none bg-[#f4f2f1] focus:border-none h-full placeholder:text-[#837567] px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal"
-                                    value="" />
-                            </div>
-                        </label>
+                    <div class="flex flex-wrap gap-2 p-4">
+                        <span class="text-[#171412] text-base font-medium leading-normal">
+                            Il mio Drive
+                            <span style="opacity: 0.4;">
+                                <% if (query && query.length> 0) { %>
+                                    &nbsp;&gt;&gt; <%= query %>
+                                        <% } else { %>
+                                            &nbsp;<i class="fa-solid fa-hard-drive"></i>
+                                            <% } %>
+
+                            </span>
+                        </span>
                     </div>
-                    <div class="pb-3">
+                    <div class="px-4 py-3">
+                        <form method="GET" action="/dashboard"
+                            class="flex w-full flex-1 items-stretch rounded-xl h-full mb-4">
+                            <input name="q" placeholder="Cerca in Drive"
+                                class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#171412] focus:outline-0 focus:ring-0 border-none bg-[#f4f2f1] focus:border-none h-full placeholder:text-[#837567] px-4 border-l-0 pl-2 text-base font-normal leading-normal"
+                                value="<%= typeof query !== 'undefined' ? query : '' %>" />
+                        </form>
+                    </div>
+                    <!-- <div class="pb-3">
                         <div class="flex border-b border-[#e4e0dd] px-4 gap-8">
                             <a class="flex flex-col items-center justify-center border-b-[3px] border-b-[#171412] text-[#171412] pb-[13px] pt-4"
                                 href="#">
                                 <p class="text-[#171412] text-sm font-bold leading-normal tracking-[0.015em]">File</p>
                             </a>
                         </div>
-                    </div>
-                    <h3 class="text-[#171412] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">File
-                    </h3>
+                    </div> -->
                     <div class="px-4 py-3 @container">
-                        <div class="flex overflow-hidden rounded-xl border border-[#e4e0dd] bg-white">
-                            <% if (files.length===0) { %>
-                                <p class="subtitle has-text-centered">Nessun file caricato ancora.</p>
+                        <% if (files.length===0) { %>
+                            <p class="subtitle has-text-centered">Nessun file caricato ancora / Nessun elemento
+                                corrisponde alla tua ricerca.</p>
+                            <div class="flex overflow-hidden rounded-xl border border-[#e4e0dd] bg-white">
                                 <% } else { %>
                                     <table class="flex-1">
                                         <thead>
@@ -136,12 +245,14 @@
                                                     <td
                                                         class="h-[72px] px-4 py-2 w-[400px] text-[#837567] text-sm font-normal leading-normal">
                                                         <span>
-                                                            <a class="scarica-file" href="/download/<%= encodeURIComponent(file) %>">Scarica
+                                                            <a class="scarica-file"
+                                                                href="/download/<%= encodeURIComponent(file) %>">Scarica
                                                                 file</a>
                                                         </span>
                                                         //
                                                         <span>
-                                                            <a class="elimina-file" onclick="bottoneEliminaFile()">Elimina file</a>
+                                                            <a class="elimina-file"
+                                                                onclick="bottoneEliminaFile()">Elimina file</a>
                                                         </span>
 
                                                         <script>
@@ -161,54 +272,55 @@
                                         </tbody>
                                     </table>
                                     <% } %>
-                        </div>
-                        <style>
-                            @container(max-width:120px) {
-                                .table-89fc12bd-aa3f-4fc3-b691-e010f0f21c1c-column-120 {
-                                    display: none;
+                            </div>
+                            <style>
+                                @container(max-width:120px) {
+                                    .table-89fc12bd-aa3f-4fc3-b691-e010f0f21c1c-column-120 {
+                                        display: none;
+                                    }
                                 }
-                            }
 
-                            @container(max-width:240px) {
-                                .table-89fc12bd-aa3f-4fc3-b691-e010f0f21c1c-column-240 {
-                                    display: none;
+                                @container(max-width:240px) {
+                                    .table-89fc12bd-aa3f-4fc3-b691-e010f0f21c1c-column-240 {
+                                        display: none;
+                                    }
                                 }
-                            }
 
-                            @container(max-width:360px) {
-                                .table-89fc12bd-aa3f-4fc3-b691-e010f0f21c1c-column-360 {
-                                    display: none;
+                                @container(max-width:360px) {
+                                    .table-89fc12bd-aa3f-4fc3-b691-e010f0f21c1c-column-360 {
+                                        display: none;
+                                    }
                                 }
-                            }
 
-                            @container(max-width:480px) {
-                                .table-89fc12bd-aa3f-4fc3-b691-e010f0f21c1c-column-480 {
-                                    display: none;
+                                @container(max-width:480px) {
+                                    .table-89fc12bd-aa3f-4fc3-b691-e010f0f21c1c-column-480 {
+                                        display: none;
+                                    }
                                 }
-                            }
 
-                            .elimina-file:hover,
-                            .scarica-file:hover {
-                                text-decoration: underline;
-                                cursor: pointer;
-                            }
+                                .elimina-file:hover,
+                                .scarica-file:hover {
+                                    text-decoration: underline;
+                                    cursor: pointer;
+                                }
 
-                            .elimina-file:hover {
-                                color: red !important;
-                            }
+                                .elimina-file:hover {
+                                    color: red !important;
+                                }
 
-                            .scarica-file:hover {
-                                color: green !important;
-                            }
+                                .scarica-file:hover {
+                                    color: green !important;
+                                }
 
-                            .cursor-pointer {
-                                cursor: pointer !important;
-                            }
-                        </style>
+                                .cursor-pointer {
+                                    cursor: pointer !important;
+                                }
+                            </style>
                     </div>
 
 
-                    <div id="storageModal" class="hidden relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+                    <div id="storageModal" class="hidden relative z-10" aria-labelledby="modal-title" role="dialog"
+                        aria-modal="true">
                         <div class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>
                         <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
                             <div
@@ -232,15 +344,14 @@
                                     </div>
 
                                     <div class="bg-gray-50 px-4 py-3 flex justify-center gap-3 sm:px-6">
-                                        <button type="button"
-                                            onclick="closeStorageModal()"
+                                        <button type="button" onclick="closeStorageModal()"
                                             class="rounded-md bg-gray-900 px-3 py-2 text-sm font-semibold text-white shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-500">
                                             Chiudi
                                         </button>
                                     </div>
 
                                     <script>
-                                        function openStorageModal() {
+                                        async function openStorageModal() {
                                             fetch('/api/storage')
                                                 .then(res => res.json())
                                                 .then(data => {
@@ -250,7 +361,7 @@
                                                     const progressoBar = `${data.percentUsed.toFixed(1)}%`;
 
                                                     console.log(progressoBar)
-                                                    bar.style.width = progressoBar; // FISSA QUI
+                                                    bar.style.width = progressoBar;
                                                     text.innerText = `Usato: ${(data.used / 1073741824).toFixed(2)} GB / ${(data.total / 1073741824).toFixed(2)} GB`;
 
                                                     document.getElementById('storageModal').classList.remove('hidden');
