@@ -12,13 +12,6 @@
 </head>
 
 <body>
-
-
-
-
-
-
-
     <div class="relative flex size-full min-h-screen flex-col bg-white group/design-root overflow-x-hidden"
         style='font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;'>
         <div class="layout-container flex h-full grow flex-col">
@@ -28,7 +21,7 @@
                         <div class="flex flex-col gap-4">
                             <h1 class="text-[#171412] text-base font-medium leading-normal">Ghibiri Drive</h1>
                             <div class="flex flex-col gap-2">
-                                <div class="flex items-center gap-3 px-3 py-2 rounded-full bg-[#f4f2f1]">
+                                <div class="cursor-pointer flex items-center gap-3 px-3 py-2 rounded-full bg-[#f4f2f1]">
                                     <div class="text-[#171412]" data-icon="Folder" data-size="24px" data-weight="fill">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px"
                                             fill="currentColor" viewBox="0 0 256 256">
@@ -47,7 +40,8 @@
                                 <span class="truncate">Nuovo</span>
                             </button>
                             <div class="flex flex-col gap-1">
-                                <div class="flex items-center gap-3 px-3 py-2">
+                                <div class="flex items-center gap-3 px-3 py-2" style="cursor: pointer;"
+                                    onclick="openStorageModal()">
                                     <div class="text-[#171412]" data-icon="DownloadSimple" data-size="24px"
                                         data-weight="regular">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px"
@@ -108,7 +102,7 @@
                                                     Nome</th>
                                                 <th
                                                     class="px-4 py-3 text-left text-[#171412] w-[400px] text-sm font-medium leading-normal">
-                                                    Data upload</th>
+                                                    Data caricamento</th>
                                                 <th
                                                     class="px-4 py-3 text-left text-[#171412] w-[400px] text-sm font-medium leading-normal">
                                                     Dimensione file</th>
@@ -141,13 +135,13 @@
                                                     </td>
                                                     <td
                                                         class="h-[72px] px-4 py-2 w-[400px] text-[#837567] text-sm font-normal leading-normal">
-                                                        <span class="scarica-file">
-                                                            <a href="/download/<%= encodeURIComponent(file) %>">Scarica
+                                                        <span>
+                                                            <a class="scarica-file" href="/download/<%= encodeURIComponent(file) %>">Scarica
                                                                 file</a>
                                                         </span>
                                                         //
-                                                        <span class="elimina-file">
-                                                            <a onclick="bottoneEliminaFile()">Elimina file</a>
+                                                        <span>
+                                                            <a class="elimina-file" onclick="bottoneEliminaFile()">Elimina file</a>
                                                         </span>
 
                                                         <script>
@@ -206,60 +200,46 @@
                             .scarica-file:hover {
                                 color: green !important;
                             }
+
+                            .cursor-pointer {
+                                cursor: pointer !important;
+                            }
                         </style>
                     </div>
 
 
-                    <div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-                        <!--
-    Background backdrop, show/hide based on modal state.
-
-    Entering: "ease-out duration-300"
-      From: "opacity-0"
-      To: "opacity-100"
-    Leaving: "ease-in duration-200"
-      From: "opacity-100"
-      To: "opacity-0"
-  -->
+                    <div id="storageModal" class="hidden relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
                         <div class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>
-
                         <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
                             <div
                                 class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-                                <!--
-        Modal panel, show/hide based on modal state.
-
-        Entering: "ease-out duration-300"
-          From: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-          To: "opacity-100 translate-y-0 sm:scale-100"
-        Leaving: "ease-in duration-200"
-          From: "opacity-100 translate-y-0 sm:scale-100"
-          To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-      -->
                                 <div
                                     class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-
-
                                     <!-- POPUP MEMORIA DRIVE -->
-                                    <script>
-                                        // function openStorageModal() {
-                                        //     fetch('/api/storage')
-                                        //         .then(res => res.json())
-                                        //         .then(data => {
-                                        //             const bar = document.getElementById('storageBar');
-                                        //             const text = document.getElementById('storageText');
-                                        //             bar.value = data.percentUsed;
-                                        //             progressoBar = `${data.percentUsed.toFixed(1)}%`;
-                                        //             bar.style.width = progressoBar; 
-                                        //             text.innerText = `Usato: ${(data.used / 1073741824).toFixed(2)} GB / ${(data.total / 1073741824).toFixed(2)} GB`;
-                                        //             document.getElementById('storageModal').classList.add('is-active');
-                                        //         })
-                                        //         .catch(err => {
-                                        //             console.error('Errore:', err);
-                                        //             alert('Errore nel caricare lo spazio disco');
-                                        //         });
-                                        // }
+                                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                                        <div class="text-center">
+                                            <p class="text-[#171412] text-base  leading-normal">Spazio del drive</p>
+                                        </div>
+                                        <div class="flex flex-col gap-3 p-4">
+                                            <div class="flex gap-6 justify-between">
+                                                <p id="storageText" class="text-sm text-gray-500">10 GB di
+                                                    15 GB utilizzati</p>
+                                            </div>
+                                            <div class="rounded bg-[#e4e0dd]">
+                                                <div class="h-2 rounded bg-[#171412]" id="storageBar"></div>
+                                            </div>
+                                        </div>
+                                    </div>
 
+                                    <div class="bg-gray-50 px-4 py-3 flex justify-center gap-3 sm:px-6">
+                                        <button type="button"
+                                            onclick="closeStorageModal()"
+                                            class="rounded-md bg-gray-900 px-3 py-2 text-sm font-semibold text-white shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-500">
+                                            Chiudi
+                                        </button>
+                                    </div>
+
+                                    <script>
                                         function openStorageModal() {
                                             fetch('/api/storage')
                                                 .then(res => res.json())
@@ -269,10 +249,11 @@
 
                                                     const progressoBar = `${data.percentUsed.toFixed(1)}%`;
 
+                                                    console.log(progressoBar)
                                                     bar.style.width = progressoBar; // FISSA QUI
                                                     text.innerText = `Usato: ${(data.used / 1073741824).toFixed(2)} GB / ${(data.total / 1073741824).toFixed(2)} GB`;
 
-                                                    document.getElementById('storageModal').classList.add('is-active');
+                                                    document.getElementById('storageModal').classList.remove('hidden');
                                                 })
                                                 .catch(err => {
                                                     console.error('Errore:', err);
@@ -281,38 +262,9 @@
                                         }
 
                                         function closeStorageModal() {
-                                            document.getElementById('storageModal').classList.remove('is-active');
+                                            document.getElementById('storageModal').classList.add('hidden');
                                         }
                                     </script>
-
-
-                                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                                        <div class="text-center">
-                                            <p class="text-[#171412] text-base  leading-normal">Spazio del drive</p>
-                                        </div>
-                                        <div class="flex flex-col gap-3 p-4">
-                                            <div class="flex gap-6 justify-between">
-                                                <p class="text-sm text-gray-500">10 GB di
-                                                    15 GB utilizzati</p>
-                                                <p id="storageText" class="text-sm text-gray-500">60%</p>
-                                            </div>
-                                            <div class="rounded bg-[#e4e0dd]">
-                                                <div class="h-2 rounded bg-[#171412]" id="storageBar"
-                                                    style="width: 80%;"></div>
-
-                                                <!-- <progress class="rounded bg-[#e4e0dd] progress is-info" id="storageBar" value="0"
-                                                    max="100">0%</progress> -->
-
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="bg-gray-50 px-4 py-3 flex justify-center gap-3 sm:px-6">
-                                        <button type="button"
-                                            class="rounded-md bg-gray-900 px-3 py-2 text-sm font-semibold text-white shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-500">
-                                            Chiudi
-                                        </button>
-                                    </div>
 
                                 </div>
 
