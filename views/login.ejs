@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>GhibiriDrive - Login</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+</head>
+
+<body class="has-background-light">
+    <section class="section is-flex is-justify-content-center is-align-items-center" style="min-height: 100vh;">
+        <div class="box" style="width: 320px;">
+            <h3 class="title is-4 has-text-centered">Metti la password</h3>
+
+            <% if (error) { %>
+                <div class="notification is-danger is-light">
+                    <%= error %>
+                </div>
+                <% } %>
+
+                    <form method="POST" action="/login">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" type="password" name="password" placeholder="Password" required
+                                    autofocus>
+                            </div>
+                        </div>
+                        <button class="button is-primary is-fullwidth">Accedi</button>
+                    </form>
+        </div>
+    </section>
+</body>
+
+</html>
