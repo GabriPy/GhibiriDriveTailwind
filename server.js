@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const multer = require('multer');
 const session = require('express-session');
@@ -12,11 +13,11 @@ const PORT = 23456;
 
 
 // === PASSWORD SEGRETA PER ENTRARE ===
-const ACCESS_PASSWORD = 'stronati2025';
+const ACCESS_PASSWORD = process.env.ACCESS_PASSWORD;
 
 // === SESSIONI ===
 app.use(session({
-    secret: 'ghibiridrive_segretissimo',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true
 }));
